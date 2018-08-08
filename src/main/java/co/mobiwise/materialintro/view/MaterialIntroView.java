@@ -228,7 +228,9 @@ public class MaterialIntroView extends RelativeLayout {
      * Use custom shape
      */
     private boolean usesCustomShape = false;
-    
+
+    public static String TAG_MATERIAL_INTRO_VIEW = "material_intro_view";
+
     public MaterialIntroView(Context context) {
         super(context);
         init(context);
@@ -321,6 +323,8 @@ public class MaterialIntroView extends RelativeLayout {
                 dismiss();
             }
         });
+
+        setTag(TAG_MATERIAL_INTRO_VIEW);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -419,11 +423,19 @@ public class MaterialIntroView extends RelativeLayout {
      */
     private void show(Activity activity) {
 
-
         if (preferencesManager.isDisplayed(materialIntroViewId))
             return;
 
-        ((ViewGroup) activity.getWindow().getDecorView()).addView(this);
+        ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
+
+        MaterialIntroView oldIntro = decorView.findViewWithTag(TAG_MATERIAL_INTRO_VIEW);
+
+        if(oldIntro != null) {
+            oldIntro.setListener(null);
+            oldIntro.dismiss();
+        }
+
+        decorView.addView(this);
 
         setReady(true);
 
