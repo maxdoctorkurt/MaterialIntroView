@@ -228,7 +228,7 @@ public class MaterialIntroView extends RelativeLayout {
      * Use custom shape
      */
     private boolean usesCustomShape = false;
-
+    
     public MaterialIntroView(Context context) {
         super(context);
         init(context);
@@ -251,6 +251,7 @@ public class MaterialIntroView extends RelativeLayout {
     }
 
     private void init(Context context) {
+
         setWillNotDraw(false);
         setVisibility(INVISIBLE);
 
@@ -790,7 +791,7 @@ public class MaterialIntroView extends RelativeLayout {
 
         public MaterialIntroView build() {
 
-            if(materialIntroView.targetView == null) return null;
+            if(materialIntroView.targetView.getView() == null) return null;
 
             if(materialIntroView.usesCustomShape) {
                 return materialIntroView;
@@ -819,15 +820,12 @@ public class MaterialIntroView extends RelativeLayout {
 
         public MaterialIntroView show() {
 
-            MaterialIntroView intro = build();
+            MaterialIntroView b = build();
 
-            if(intro != null)
-            intro.show(activity);
+            if(b == null) return null;
+
+            b.show(activity);
             return materialIntroView;
         }
-
-
-
     }
-
 }
